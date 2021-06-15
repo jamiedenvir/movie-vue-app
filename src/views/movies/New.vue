@@ -18,6 +18,9 @@
       <div class="form-group">
         <label>Plot:</label>
         <input type="text" class="form-control" v-model="newMovieParams.plot" />
+        <br />
+        <small>{{ newMovieParams.plot.length }} characters</small>
+        <small v-if="newMovieParams.plot.length > 20" class="text-danger">Plot too long!</small>
       </div>
       <div class="form-group">
         <label>Director:</label>
@@ -32,11 +35,19 @@
   </div>
 </template>
 
+<style scoped>
+.text-danger {
+  color: red;
+}
+</style>
+
 <script>
 import axios from "axios";
 export default {
   data: () => ({
-    newMovieParams: {},
+    newMovieParams: {
+      plot: "",
+    },
     errors: [],
   }),
   methods: {
