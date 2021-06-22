@@ -1,6 +1,6 @@
 <template>
   <div class="movies-new">
-    <form v-on:submit.prevent="createMovie()">
+    <!-- <form v-on:submit.prevent="createMovie()">
       <h1>Add New Movie</h1>
       <ul>
         <li class="text-danger" v-for="error in errors" v-bind:key="error">
@@ -29,6 +29,39 @@
       <div class="form-group">
         <label>English:</label>
         <input type="text" class="form-control" v-model="newMovieParams.english" placeholder="True or false" />
+      </div>
+      <input type="submit" class="btn btn-primary" value="Submit" />
+    </form> -->
+
+    <form method="POST" action="/new" v-on:submit.prevent="createMovie()">
+      <h1>Add New Movie</h1>
+      <ul>
+        <li class="text-danger" v-for="error in errors" v-bind:key="error">
+          {{ error }}
+        </li>
+      </ul>
+      <div class="form-group">
+        <label>Title:</label>
+        <input type="text" class="form-control" v-model="newMovieParams.title" />
+      </div>
+      <div class="form-group">
+        <label>Year:</label>
+        <input type="text" class="form-control" v-model="newMovieParams.year" />
+      </div>
+      <div class="form-group">
+        <label>Plot:</label>
+        <textarea class="form-control" v-model="newMovieParams.plot" />
+        <br />
+        <small>{{ newMovieParams.plot.length }} characters</small>
+        <small v-if="newMovieParams.plot.length > 20" class="text-danger">Plot too long!</small>
+      </div>
+      <div class="form-group">
+        <label>Director:</label>
+        <input type="text" class="form-control" v-model="newMovieParams.director" />
+      </div>
+      <div class="form-group">
+        <label>English:</label>
+        <input type="checkbox" class="form-control checkbox" checkEnglish />
       </div>
       <input type="submit" class="btn btn-primary" value="Submit" />
     </form>
@@ -62,6 +95,9 @@ export default {
           console.log(error.response.data.errors);
           this.errors = error.response.data.errors;
         });
+    },
+    checkEnglish: function () {
+      return document.querySelector(".checkbox").checked;
     },
   },
 };
